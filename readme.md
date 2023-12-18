@@ -1,7 +1,7 @@
 # Tidier
 This crate provides a safe abstraction over the [Tidy](https://github.com/htacg/tidy-html5) C library.
 
-##Features
+## Features
 - Currently, it only supports formatting of HTML, XHTML and XML documents.
 
 ## Examples
