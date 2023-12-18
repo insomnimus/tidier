@@ -1,10 +1,11 @@
 [package]
 name = "tidier"
-description = "Format HTML, XHTML and XML documents using Tidy"
-authors = ["Taylan Gökkaya"]
-license = "MIT OR APACHE-2.0"
 version = "0.1.0"
 edition = "2021"
+description = "Format HTML, XHTML and XML documents using Tidy"
+license = "MIT OR APACHE-2.0"
+repository = "https://github.com/insomnimus/tidier"
+authors = ["Taylan Gökkaya"]
 keywords = ["html", "xml", "format", "pretty", "tidy"]
 categories = ["api-bindings", "value-formatting"]
 
