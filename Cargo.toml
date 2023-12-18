@@ -1,0 +1,19 @@
+[package]
+name = "tidier"
+description = "Format HTML, XHTML and XML documents using Tidy"
+authors = ["Taylan Gökkaya"]
+license = "MIT OR APACHE-2.0"
+version = "0.1.0"
+edition = "2021"
+keywords = ["html", "xml", "format", "pretty", "tidy"]
+categories = ["api-bindings", "value-formatting"]
+
+[dev-dependencies]
+clap = { version = "4.4.11", features = ["derive"] }
+
+[target.'cfg(not(windows))'.dependencies]
+errno = "0.3.8"
+
+[dependencies]
+memchr = "2.6.4"
+tidy-sys = "0.5.0"
