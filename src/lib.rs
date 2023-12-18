@@ -10,8 +10,10 @@ mod tests;
 
 use std::{
 	mem,
-	ptr,
-	ptr::addr_of_mut,
+	ptr::{
+		self,
+		addr_of_mut,
+	},
 };
 
 use tidy_sys::*;
