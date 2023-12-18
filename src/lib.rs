@@ -256,7 +256,7 @@ pub fn format<S: AsRef<str> + Into<String>>(
 	xml: bool,
 	opts: &FormatOptions,
 ) -> Result<String> {
-	Doc::new(doc, xml).and_then(|d| d.format(opts))
+	Doc::new(doc, xml)?.format(opts)
 }
 
 /// A convenience function for [Doc::format_bytes].
@@ -265,7 +265,7 @@ pub fn format_bytes<S: AsRef<str> + Into<String>>(
 	xml: bool,
 	opts: &FormatOptions,
 ) -> Result<Vec<u8>> {
-	Doc::new(doc, xml).and_then(|d| d.format_bytes(opts))
+	Doc::new(doc, xml)?.format_bytes(opts)
 }
 
 /// A convenience function for [Doc::format_to].
