@@ -36,9 +36,9 @@ pub struct FormatOptions {
 	pub join_styles: bool,
 	/// Add a newline after a hard line break (`<br>`). The default is `false`.
 	pub br_newline: bool,
-	/// Merge adjacent `<div>` elements into one. The default is `false`.
+	/// Merge multiple `<div>` elements into one. The default is `false`.
 	pub merge_divs: bool,
-	/// Merge adjacent `<span>` elements into one. The default is `false`.
+	/// Merge multiple `<span>` elements into one. The default is `false`.
 	pub merge_spans: bool,
 }
 
