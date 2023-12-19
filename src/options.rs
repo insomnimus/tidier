@@ -22,7 +22,7 @@ pub struct FormatOptions {
 	/// possible.
 	///
 	/// A value of `0` disables line wrapping. The default is `68`.
-	pub line_width: u32,
+	pub wrap: u32,
 	/// Convert smart quotes, em dashes etc with ASCII equivalents. The default
 	/// is `false`.
 	pub ascii_symbols: bool,
@@ -45,7 +45,7 @@ pub struct FormatOptions {
 impl Default for FormatOptions {
 	fn default() -> Self {
 		Self {
-			line_width: 68,
+			wrap: 68,
 			line_ending: LineEnding::Lf,
 			indent: Indent::default(),
 			ascii_symbols: false,
@@ -70,7 +70,7 @@ pub struct Indent {
 	/// Setting this to 0 will turn off indentation.
 	/// The default is `4`.
 	pub size: u16,
-	/// Use hard tabs (`\t`) for indentation. The default is `true`.
+	/// Use hard tabs (`\t`) for indentation. The default is `false`.
 	pub tabs: bool,
 	/// Add a newline and indent before each attribute. The default is `false`.
 	pub attributes: bool,
@@ -82,7 +82,7 @@ impl Default for Indent {
 	fn default() -> Self {
 		Self {
 			size: 4,
-			tabs: true,
+			tabs: false,
 			attributes: false,
 			cdata: false,
 		}
@@ -155,7 +155,7 @@ impl FormatOptions {
 		set! {
 			doc, set_int,
 		Newline = ending,
-		WrapLen = self.line_width,
+		WrapLen = self.wrap,
 		IndentSpaces = self.indent.size as u32,
 		MergeDivs = self.merge_divs as _,
 		MergeSpans = self.merge_spans as _,

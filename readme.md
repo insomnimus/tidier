@@ -16,11 +16,10 @@ let html = "<html>
 </html>";
 
 let opts = FormatOptions {
-	line_width: 60,
+	wrap: 60,
 	strip_comments: true,
 	indent: Indent {
-		tabs: false,
-		size: 8,
+		tabs: true,
 		..Indent::default()
 	},
 	..FormatOptions::default()

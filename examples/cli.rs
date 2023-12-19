@@ -57,7 +57,7 @@ fn run() -> Result<(), Box<dyn std::error::Error>> {
 	let doc = Doc::new(input, xml)?;
 
 	let out = doc.format_bytes(&FormatOptions {
-		line_width: args.width,
+		wrap: args.width,
 		indent: Indent {
 			tabs: args.spaces.is_none(),
 			size: args.spaces.unwrap_or(4),
