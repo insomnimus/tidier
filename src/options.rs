@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: MIT OR Apache-2.0
 // Copyright 2023 Taylan Gökkaya
 
+#[doc(no_inline)]
+pub use tidy_sys::TidyUseCustomTagsState as CustomTags;
 use tidy_sys::*;
 
 macro_rules! set {
@@ -12,7 +14,7 @@ macro_rules! set {
 }
 
 /// Formatting options.
-#[derive(Debug, Hash, Clone, Eq, PartialEq, Ord, PartialOrd)]
+#[derive(Debug, Hash, Clone, Eq, PartialEq)]
 pub struct FormatOptions {
 	/// Options that control line indentation.
 	pub indent: Indent,
@@ -21,8 +23,12 @@ pub struct FormatOptions {
 	/// The maximum line width. Lines exceeding this value will be wrapped, if
 	/// possible.
 	///
-	/// A value of `0` disables line wrapping. The default is `68`.
+	/// A value of `0` disables line wrapping. The default is `80`.
 	pub wrap: u32,
+	/// What to do with autonomous custom tags (custom tags that contain dashes (`-`)).
+	/// If set to [CustomTags::No], unknown tags are hard errors.
+	/// The default is [CustomTags::Blocklevel].
+	pub custom_tags: CustomTags,
 	/// Convert smart quotes, em dashes etc with ASCII equivalents. The default
 	/// is `false`.
 	pub ascii_symbols: bool,
@@ -45,9 +51,10 @@ pub struct FormatOptions {
 impl Default for FormatOptions {
 	fn default() -> Self {
 		Self {
-			wrap: 68,
-			line_ending: LineEnding::Lf,
 			indent: Indent::default(),
+			line_ending: LineEnding::Lf,
+			wrap: 80,
+			custom_tags: CustomTags::Blocklevel,
 			ascii_symbols: false,
 			strip_comments: false,
 			join_classes: false,
@@ -156,6 +163,7 @@ impl FormatOptions {
 			doc, set_int,
 		Newline = ending,
 		WrapLen = self.wrap,
+		UseCustomTags = self.custom_tags as u32,
 		IndentSpaces = self.indent.size as u32,
 		MergeDivs = self.merge_divs as _,
 		MergeSpans = self.merge_spans as _,
