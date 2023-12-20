@@ -182,7 +182,7 @@ impl Doc {
 
 		loop {
 			let res =
-				unsafe { tidySaveString(self.doc, buf.as_mut_ptr() as *mut i8, addr_of_mut!(len)) };
+				unsafe { tidySaveString(self.doc, buf.as_mut_ptr() as *mut _, addr_of_mut!(len)) };
 
 			if res == -ENOMEM {
 				if len == u32::MAX {
