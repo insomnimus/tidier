@@ -14,12 +14,12 @@ macro_rules! set {
 }
 
 /// Formatting options.
-#[derive(Debug, Hash, Clone, Eq, PartialEq)]
+#[derive(Debug, Hash, Copy, Clone, Eq, PartialEq)]
 pub struct FormatOptions {
 	/// Options that control line indentation.
 	pub indent: Indent,
 	/// The line ending to use. The default is [`LineEnding::Lf`].
-	pub line_ending: LineEnding,
+	pub eol: LineEnding,
 	/// The maximum line width. Lines exceeding this value will be wrapped, if
 	/// possible.
 	///
@@ -50,19 +50,7 @@ pub struct FormatOptions {
 
 impl Default for FormatOptions {
 	fn default() -> Self {
-		Self {
-			indent: Indent::default(),
-			line_ending: LineEnding::Lf,
-			wrap: 80,
-			custom_tags: CustomTags::Blocklevel,
-			ascii_symbols: false,
-			strip_comments: false,
-			join_classes: false,
-			join_styles: true,
-			br_newline: false,
-			merge_divs: false,
-			merge_spans: false,
-		}
+		Self::new()
 	}
 }
 
@@ -87,12 +75,21 @@ pub struct Indent {
 
 impl Default for Indent {
 	fn default() -> Self {
-		Self {
-			size: 4,
-			tabs: false,
-			attributes: false,
-			cdata: false,
-		}
+		Self::new()
+	}
+}
+
+impl Indent {
+	pub const DEFAULT: Self = Self {
+		size: 4,
+		tabs: false,
+		attributes: false,
+		cdata: false,
+	};
+
+	/// Equivalent to [Self::DEFAULT].
+	pub const fn new() -> Self {
+		Self::DEFAULT
 	}
 }
 
@@ -154,7 +151,7 @@ pub(crate) fn set_bool(doc: TidyDoc, id: TidyOptionId, yes: bool) {
 impl FormatOptions {
 	pub(crate) fn apply(&self, doc: TidyDoc) {
 		use TidyOptionId::*;
-		let ending = match self.line_ending {
+		let ending = match self.eol {
 			LineEnding::Lf => TidyLineEnding::LF as u32,
 			LineEnding::CrLf => TidyLineEnding::CRLF as u32,
 			LineEnding::Cr => TidyLineEnding::CR as u32,
@@ -182,5 +179,75 @@ impl FormatOptions {
 			MakeBare = self.ascii_symbols,
 			BreakBeforeBR = self.br_newline,
 		}
+	}
+}
+
+macro_rules! setter {
+	[$($name:ident => $var:ident : $typ:ty);* $(;)?] => {
+		$(
+			#[doc = concat!("Sets `self.", stringify!($name), "`.")]
+			#[must_use = "This function does not modify in-place but returns a modified value"]
+			#[inline(always)]
+			pub const fn $name(mut self, $var: $typ) -> Self {
+				self.$name = $var;
+				self
+			}
+		)*
+	};
+
+	[$field:ident, $($name:ident, $subfield:ident => $var:ident : $typ:ty);* $(;)?] => {
+		$(
+			#[doc = concat!("Sets `self.", stringify!($field), ".", stringify!($subfield), "`.")]
+			#[must_use = "This function does not modify in-place but returns a modified value"]
+			#[inline(always)]
+			pub fn $name(mut self, $var: $typ) -> Self {
+				self.$field.$subfield = $var;
+				self
+			}
+		)*
+	}
+}
+
+impl FormatOptions {
+	pub const DEFAULT: Self = Self {
+		indent: Indent::DEFAULT,
+		eol: LineEnding::Lf,
+		wrap: 80,
+		custom_tags: CustomTags::Blocklevel,
+		ascii_symbols: false,
+		strip_comments: false,
+		join_classes: false,
+		join_styles: true,
+		br_newline: false,
+		merge_divs: false,
+		merge_spans: false,
+	};
+
+	/// Equivalent to [Self::DEFAULT].
+	pub const fn new() -> Self {
+		Self::DEFAULT
+	}
+}
+
+impl FormatOptions {
+	setter! {
+		eol => eol: LineEnding;
+		wrap => wrap: u32;
+		custom_tags => behavior: CustomTags;
+		ascii_symbols => convert: bool;
+		strip_comments => yes: bool;
+		join_classes => yes: bool;
+		join_styles => yes: bool;
+		br_newline => yes: bool;
+		merge_divs => yes: bool;
+		merge_spans => yes: bool;
+	}
+
+	setter! {
+		indent,
+		indent, size => size: u16;
+		tabs, tabs => use_tabs: bool;
+		indent_attributes, attributes => yes: bool;
+		indent_cdata, cdata => yes: bool;
 	}
 }

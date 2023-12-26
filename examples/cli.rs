@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT OR Apache-2.0
+
 use std::{
 	fs,
 	io::{
@@ -13,7 +15,6 @@ use clap::Parser;
 use tidier::{
 	Doc,
 	FormatOptions,
-	Indent,
 };
 
 /// Format HTML or XML documents.
@@ -21,11 +22,11 @@ use tidier::{
 struct Args {
 	/// Use N number of spaces instead of tabs for indentation
 	#[arg(short, long)]
-	pub spaces: Option<u16>,
+	spaces: Option<u16>,
 
 	/// Maximum line width
 	#[arg(short, long, default_value_t = 68)]
-	width: u32,
+	wrap: u32,
 
 	/// Forcibly parse input as XML (by default it's inferred from the input extension)
 	#[arg(short, long)]
@@ -56,15 +57,12 @@ fn run() -> Result<(), Box<dyn std::error::Error>> {
 
 	let doc = Doc::new(input, xml)?;
 
-	let out = doc.format_bytes(&FormatOptions {
-		wrap: args.width,
-		indent: Indent {
-			tabs: args.spaces.is_none(),
-			size: args.spaces.unwrap_or(4),
-			..Indent::default()
-		},
-		..FormatOptions::default()
-	})?;
+	let out = doc.format_bytes(
+		&FormatOptions::new()
+			.wrap(args.wrap)
+			.tabs(args.spaces.is_none())
+			.indent(args.spaces.unwrap_or(4)),
+	)?;
 
 	if args.out.as_os_str() == "-" {
 		io::stdout().lock().write_all(&out)?;

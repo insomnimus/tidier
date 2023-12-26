@@ -5,7 +5,7 @@ This crate provides a safe abstraction over the [Tidy](https://github.com/htacg/
 - Currently, it only supports formatting of HTML, XHTML and XML documents.
 
 ## Examples
-Note: You can view a more thorough example at [examples/cli.rs](examples/cli.rs).
+Note: Check out the basic CLI example in the [examples directory](https://github.com/insomnimus/tidier/tree/main/examples).
 
 ```rust
 use tidier::{Doc, FormatOptions, Indent};
@@ -20,10 +20,16 @@ let opts = FormatOptions {
 	strip_comments: true,
 	indent: Indent {
 		tabs: true,
-		..Indent::default()
+		..Indent::DEFAULT
 	},
-	..FormatOptions::default()
+	..FormatOptions::DEFAULT
 };
+
+// Alternatively
+let opts = FormatOptions::new()
+	.tabs(true)
+	.strip_comments(true)
+	.wrap(60);
 
 let doc = Doc::new(html, false)?;
 let s1 = doc.format(&opts)?;
