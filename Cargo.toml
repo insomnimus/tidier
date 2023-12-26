@@ -17,4 +17,4 @@ errno = "0.3.8"
 
 [dependencies]
 memchr = "2.6.4"
-tidy-sys = "0.7.0"
+tidy-sys = "0.7.1"
