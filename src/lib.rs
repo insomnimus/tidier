@@ -217,6 +217,19 @@ impl Doc {
 		Ok(())
 	}
 
+	/// Cleans and repairs the document.
+	///
+	/// Only calls [tidy_sys::tidyCleanAndRepair].
+	pub fn repair(&self) -> Result<()> {
+		unsafe {
+			match tidyCleanAndRepair(self.doc) {
+				0 | 1 => Ok(()),
+				2.. => Err(Error::Doc(self.diagnostics())),
+				n => Err(Error::Errno(-n)),
+			}
+		}
+	}
+
 	/// Return all the [Diagnostic]s that were generated.
 	///
 	/// The returned Vec may contain both errors and warnings.
