@@ -1,8 +1,8 @@
 [package]
 name = "tidier"
-version = "0.5.1"
+version = "0.5.2"
 edition = "2021"
-description = "Format HTML, XHTML and XML documents using Tidy"
+description = "Format HTML, XHTML and XML documents"
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/insomnimus/tidier"
 authors = ["Taylan Gökkaya"]
@@ -10,11 +10,11 @@ keywords = ["html", "xml", "format", "pretty", "tidy"]
 categories = ["api-bindings", "value-formatting"]
 
 [dev-dependencies]
-clap = { version = "4.4.18", features = ["derive"] }
+clap = { version = "4.5.4", features = ["derive"] }
 
 [target.'cfg(not(windows))'.dependencies]
 errno = "0.3.8"
 
 [dependencies]
-memchr = "2.7.1"
+memchr = "2.7.2"
 tidy-sys = "0.8.1"

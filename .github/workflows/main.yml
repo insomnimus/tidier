@@ -1,0 +1,49 @@
+{
+  "name": "main",
+  "on": {
+    "push": {
+      "paths-ignore": ["readme.md", "LICENSE"]
+    },
+    "pull_request": {
+      "paths-ignore": ["readme.md", "LICENSE"]
+    }
+  },
+  "jobs": {
+    "test": {
+      "strategy": {
+        "matrix": {
+          "include": [
+            {
+              "os": "ubuntu-latest"
+            },
+            {
+              "os": "macOS-latest"
+            },
+            {
+              "os": "windows-latest"
+            }
+          ]
+        }
+      },
+      "runs-on": "${{ matrix.os }}",
+      "steps": [
+        {
+          "name": "checkout",
+          "uses": "actions/checkout@v3"
+        },
+        {
+          "name": "update rust",
+          "run": "rustup update"
+        },
+        {
+          "name": "run clippy",
+          "run": "cargo clippy -- -F warnings"
+        },
+        {
+          "name": "run tests",
+          "run": "cargo test"
+        }
+      ]
+    }
+  }
+}
