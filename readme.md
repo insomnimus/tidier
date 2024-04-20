@@ -1,3 +1,7 @@
+[![Build Status](https://github.com/insomnimus/tidier/actions/workflows/main.yml/badge.svg)](https://github.com/insomnimus/tidier/actions)
+ [![crates.io](https://img.shields.io/crates/v/tidier.svg)](https://crates.io/crates/tidier)
+ [![docs.rs](https://docs.rs/tidier/badge.svg)](https://docs.rs/tidier/)
+
 # Tidier
 This crate provides a safe abstraction over the [Tidy](https://github.com/htacg/tidy-html5) C library.
 
