@@ -132,7 +132,7 @@ pub(crate) fn reset_opts(doc: TidyDoc, xml: bool) {
 		set_bool(doc, id, yes);
 	}
 
-	let res = unsafe { tidySetCharEncoding(doc, b"utf8\0".as_ptr() as *const _) };
+	let res = unsafe { tidySetCharEncoding(doc, c"utf8".as_ptr() as *const _) };
 	debug_assert_eq!(res, 0, "tidySetCharEncoding returned {res}");
 }
 
