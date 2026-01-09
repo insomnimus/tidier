@@ -1,6 +1,6 @@
 [package]
 name = "tidier"
-version = "0.5.4"
+version = "0.5.5"
 edition = "2021"
 description = "Format HTML, XHTML and XML documents"
 license = "MIT OR Apache-2.0"
@@ -17,4 +17,4 @@ errno = "0.3.14"
 
 [dependencies]
 memchr = "2.7.6"
-tidy-sys = "0.8.3"
+tidy-sys = "0.8.4"
